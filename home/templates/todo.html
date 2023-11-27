@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block maincontent %}
+<div class="container mt-5">
+<form method="POST" class="col-6 mx-auto card p-3 shadow-lg">
+    {% csrf_token %}
+<h2>Add Task</h2>
+    <div class="mb-3">
+      <label for="task" class="form-label">Task</label>
+      <input type="text" name="task" class="form-control" id="task">
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea name="description" class="form-control" id="description" cols="30" rows="10"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Task</button>
+  </form>
+  {% if messages %}
+  <ul class="messages col-6 mx-auto p-3">
+      {% for message in messages %}
+      <div class="alert alert-primary" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+  </ul>
+  {% endif %}
+{% if tasks %}
+  <table class="table mt-5">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Task</th>
+          <th scope="col">Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{task.title}}</td>
+          <td>{{task.description}}</td>
+          <td>
+            {% if task.status == "Done" %}
+            <a class="btn btn-success" href="#">Already Done</a>
+            {% else %}
+            <a class="btn btn-primary" href="/done/{{task.id}}">Mark as Done</a>
+            {% endif %}
+            <a class="btn btn-danger" href="/delete/{{task.id}}">Delete</a>
+        </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+</table>
+{% endif %}
+</div>
+{% endblock maincontent %}
