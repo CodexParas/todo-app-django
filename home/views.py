@@ -87,7 +87,7 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     messages.info(request, "You have been logged out.")
-    return render(request, "login.html")
+    return redirect("/login/")
 
 
 def register_page(request):
